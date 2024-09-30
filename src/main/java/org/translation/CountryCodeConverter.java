@@ -14,6 +14,9 @@ import java.util.Map;
  */
 public class CountryCodeConverter {
 
+    private Map<String, String> codeToCountry = new HashMap<>();
+    private Map<String, String> countryToCode = new HashMap<>();
+
     // TODO Task: pick appropriate instance variable(s) to store the data necessary for this class
 
     /**
@@ -36,12 +39,17 @@ public class CountryCodeConverter {
                     .getClassLoader().getResource(filename).toURI()));
 
             // TODO Task: use lines to populate the instance variable(s)
-
+            for (String line : lines.subList(1, lines.size())) {
+                String[] parts = line.split("\t");
+                String countryName = parts[0].trim();
+                String countryCode = parts[2].trim().toLowerCase();
+                countryToCode.put(countryName, countryCode);
+                codeToCountry.put(countryCode, countryName);
+            }
         }
         catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
-
     }
 
     /**
@@ -51,7 +59,7 @@ public class CountryCodeConverter {
      */
     public String fromCountryCode(String code) {
         // TODO Task: update this code to use an instance variable to return the correct value
-        return code;
+        return codeToCountry.get(code.toLowerCase());
     }
 
     /**
@@ -61,7 +69,7 @@ public class CountryCodeConverter {
      */
     public String fromCountry(String country) {
         // TODO Task: update this code to use an instance variable to return the correct value
-        return country;
+        return countryToCode.get(country);
     }
 
     /**
@@ -70,6 +78,6 @@ public class CountryCodeConverter {
      */
     public int getNumCountries() {
         // TODO Task: update this code to use an instance variable to return the correct value
-        return 0;
+        return codeToCountry.size();
     }
 }

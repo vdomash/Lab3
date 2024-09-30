@@ -27,4 +27,19 @@ public class JSONTranslatorTest {
     public void translate() {
         assertEquals("Canada", jsonTranslator.translate("can", "en"));
     }
+
+    @Test
+    public void translateRus() {
+        assertEquals("Россия", jsonTranslator.translate("rus", "ru"));
+    }
+
+//    @Test
+//    public void translateEmptyCountry() {
+//        assertEquals("", jsonTranslator.translate("", "ru"));
+//    }
+//
+//    @Test
+//    public void translateEmptyLanguage() {
+//        assertEquals("", jsonTranslator.translate("can", ""));
+//    }
 }

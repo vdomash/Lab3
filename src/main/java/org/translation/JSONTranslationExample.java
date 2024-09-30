@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -14,6 +16,7 @@ import org.json.JSONObject;
 public class JSONTranslationExample {
 
     public static final int CANADA_INDEX = 30;
+    public static final int ITALY_INDEX = 81;
     private final JSONArray jsonArray;
 
     // Note: CheckStyle is configured so that we are allowed to omit javadoc for constructors
@@ -41,8 +44,15 @@ public class JSONTranslationExample {
         return canada.getString("es");
     }
 
-    // TODO Task: Complete the method below to generalize the above to get the country name
-    //            for any country code and language code from sample.json.
+    /**
+     * Returns the Russian translation of Italy.
+     * @return the Russian translation of Italy
+     */
+    public String getItalyCountryNameRussianTranslation() {
+
+        JSONObject italy = jsonArray.getJSONObject(ITALY_INDEX);
+        return italy.getString("ru");
+    }
 
     /**
      * Returns the name of the country based on the provided country and language codes.
@@ -51,6 +61,19 @@ public class JSONTranslationExample {
      * @return the translation of country to the given language or "Country not found" if there is no translation.
      */
     public String getCountryNameTranslation(String countryCode, String languageCode) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject country = jsonArray.getJSONObject(i);
+            if (country.getString("alpha3").equalsIgnoreCase(countryCode)) {
+                // Found country
+                if (country.has(languageCode.toLowerCase())) {
+                    return country.getString(languageCode.toLowerCase());
+                }
+                else {
+                    // Translation not found
+                    break;
+                }
+            }
+        }
         return "Country not found";
     }
 
